@@ -83,5 +83,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CourseSurface.RightRectangleMethodLogic\CourseSurface.RightRectangleMethodLogic.csproj">
+      <Project>{4952F4D6-1531-435F-9621-6908F9B5D982}</Project>
+      <Name>CourseSurface.RightRectangleMethodLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

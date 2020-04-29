@@ -4,9 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CourseSurface.RightRectangleMethodLogic;
+using CourseSurface.RightRectangleMethodLogic.Model;
 using MaterialSkin;
 using MaterialSkin.Controls;
 
@@ -41,6 +44,24 @@ namespace CourseSurface
         private void materialLabel1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void materialSingleLineTextField1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            RightRectangleMethod rectangleMethod = new RightRectangleMethod();
+            Integral integral = new Integral()
+                                {
+                                    XEnd = int.Parse(XEndTextBox.Text),
+                                    XStart = int.Parse(XStartTextBox.Text),
+                                    YEnd = int.Parse(YEndTextBox.Text),
+                                    YStart = int.Parse(YStartTextBox.Text)
+                                };
+            var result = rectangleMethod.CalculateSurface(integral);
         }
     }
 }

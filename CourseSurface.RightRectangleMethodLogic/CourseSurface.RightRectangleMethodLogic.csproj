@@ -41,9 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Diffrentiation.cs" />
     <Compile Include="Model\Integral.cs" />
+    <Compile Include="Model\IntegrationResultInfo.cs" />
     <Compile Include="RightRectangleMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Surface.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
