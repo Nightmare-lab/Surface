@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.materialSingleLineTextField1 = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.XStartTextBox = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.XEndTextBox = new MaterialSkin.Controls.MaterialSingleLineTextField();
@@ -38,11 +41,16 @@
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
             this.button1 = new System.Windows.Forms.Button();
+            this.chartThreads = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.Result = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
+            ((System.ComponentModel.ISupportInitialize)(this.chartThreads)).BeginInit();
             this.SuspendLayout();
             // 
             // materialSingleLineTextField1
             // 
             this.materialSingleLineTextField1.Depth = 0;
+            this.materialSingleLineTextField1.Enabled = false;
             this.materialSingleLineTextField1.Hint = "";
             this.materialSingleLineTextField1.Location = new System.Drawing.Point(12, 91);
             this.materialSingleLineTextField1.MaxLength = 32767;
@@ -55,6 +63,7 @@
             this.materialSingleLineTextField1.Size = new System.Drawing.Size(291, 23);
             this.materialSingleLineTextField1.TabIndex = 0;
             this.materialSingleLineTextField1.TabStop = false;
+            this.materialSingleLineTextField1.Text = "2*x*x+2*y*y+3*E^(-x)+3*E^(y)";
             this.materialSingleLineTextField1.UseSystemPasswordChar = false;
             this.materialSingleLineTextField1.Click += new System.EventHandler(this.materialSingleLineTextField1_Click);
             // 
@@ -73,7 +82,7 @@
             this.XStartTextBox.Size = new System.Drawing.Size(142, 23);
             this.XStartTextBox.TabIndex = 1;
             this.XStartTextBox.TabStop = false;
-            this.XStartTextBox.Text = "-30";
+            this.XStartTextBox.Text = "-10";
             this.XStartTextBox.UseSystemPasswordChar = false;
             // 
             // XEndTextBox
@@ -91,7 +100,7 @@
             this.XEndTextBox.Size = new System.Drawing.Size(142, 23);
             this.XEndTextBox.TabIndex = 2;
             this.XEndTextBox.TabStop = false;
-            this.XEndTextBox.Text = "30";
+            this.XEndTextBox.Text = "10";
             this.XEndTextBox.UseSystemPasswordChar = false;
             this.XEndTextBox.Click += new System.EventHandler(this.materialSingleLineTextField3_Click);
             // 
@@ -110,7 +119,7 @@
             this.YStartTextBox.Size = new System.Drawing.Size(142, 23);
             this.YStartTextBox.TabIndex = 3;
             this.YStartTextBox.TabStop = false;
-            this.YStartTextBox.Text = "-10";
+            this.YStartTextBox.Text = "-20";
             this.YStartTextBox.UseSystemPasswordChar = false;
             // 
             // YEndTextBox
@@ -128,7 +137,7 @@
             this.YEndTextBox.Size = new System.Drawing.Size(142, 23);
             this.YEndTextBox.TabIndex = 4;
             this.YEndTextBox.TabStop = false;
-            this.YEndTextBox.Text = "10";
+            this.YEndTextBox.Text = "20";
             this.YEndTextBox.UseSystemPasswordChar = false;
             // 
             // materialLabel1
@@ -194,11 +203,62 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // chartThreads
+            // 
+            this.chartThreads.BackColor = System.Drawing.Color.DimGray;
+            chartArea2.Name = "ChartArea1";
+            this.chartThreads.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartThreads.Legends.Add(legend2);
+            this.chartThreads.Location = new System.Drawing.Point(393, 91);
+            this.chartThreads.Name = "chartThreads";
+            this.chartThreads.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartThreads.Series.Add(series2);
+            this.chartThreads.Size = new System.Drawing.Size(589, 413);
+            this.chartThreads.TabIndex = 10;
+            this.chartThreads.Text = "chart1";
+            // 
+            // Result
+            // 
+            this.Result.Depth = 0;
+            this.Result.Hint = "";
+            this.Result.Location = new System.Drawing.Point(13, 287);
+            this.Result.MaxLength = 32767;
+            this.Result.MouseState = MaterialSkin.MouseState.HOVER;
+            this.Result.Name = "Result";
+            this.Result.PasswordChar = '\0';
+            this.Result.SelectedText = "";
+            this.Result.SelectionLength = 0;
+            this.Result.SelectionStart = 0;
+            this.Result.Size = new System.Drawing.Size(374, 23);
+            this.Result.TabIndex = 11;
+            this.Result.TabStop = false;
+            this.Result.UseSystemPasswordChar = false;
+            // 
+            // materialLabel5
+            // 
+            this.materialLabel5.AutoSize = true;
+            this.materialLabel5.Depth = 0;
+            this.materialLabel5.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel5.Location = new System.Drawing.Point(12, 265);
+            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel5.Name = "materialLabel5";
+            this.materialLabel5.Size = new System.Drawing.Size(51, 19);
+            this.materialLabel5.TabIndex = 12;
+            this.materialLabel5.Text = "Result";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(994, 516);
+            this.Controls.Add(this.materialLabel5);
+            this.Controls.Add(this.Result);
+            this.Controls.Add(this.chartThreads);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.materialLabel4);
             this.Controls.Add(this.materialLabel3);
@@ -212,6 +272,7 @@
             this.Name = "Form1";
             this.Text = "SurfaceApplication";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.chartThreads)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -229,6 +290,9 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel3;
         private MaterialSkin.Controls.MaterialLabel materialLabel4;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartThreads;
+        private MaterialSkin.Controls.MaterialSingleLineTextField Result;
+        private MaterialSkin.Controls.MaterialLabel materialLabel5;
     }
 }
 

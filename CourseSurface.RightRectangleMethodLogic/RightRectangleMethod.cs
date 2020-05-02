@@ -15,7 +15,7 @@ namespace CourseSurface.RightRectangleMethodLogic
         public List<IntegrationResultInfo> CalculateSurface(Integral integrationInfo)
         {
             var results = new List<IntegrationResultInfo>();
-            int n = 300;
+            int n = 1400;
             var surface = new Surface();
 
             var stopwatch = new Stopwatch();
@@ -26,7 +26,7 @@ namespace CourseSurface.RightRectangleMethodLogic
                 var result = RightRectangle(surface.CalculateSurfaceFunction, integrationInfo, n, i);
                 stopwatch.Stop();
 
-                results.Add(new IntegrationResultInfo(){ Result = result,Time = stopwatch.Elapsed});
+                results.Add(new IntegrationResultInfo(){ Result = result,Time = stopwatch.Elapsed.TotalSeconds, NumberOfThreads = i});
 
                 stopwatch.Reset();
             }

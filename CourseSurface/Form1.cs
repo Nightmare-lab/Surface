@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -62,6 +63,10 @@ namespace CourseSurface
                                     YStart = int.Parse(YStartTextBox.Text)
                                 };
             var result = rectangleMethod.CalculateSurface(integral);
+
+            Result.Text = result.Last().Result.ToString(CultureInfo.InvariantCulture);
+
+            chartThreads.Series[0].Points.DataBind(result,"NumberOfThreads","Time","");
         }
     }
 }
