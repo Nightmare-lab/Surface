@@ -28,26 +28,22 @@ def make_surface(a, b, c, d, x_start, x_end, y_start, y_end):
     cmap = cm.plasma)
     plt.show()
 
-xSymbol,ySymbol = sympy.symbols('x y')
-expression = parse_expr("a*x**2+b*y**2+c*exp(-x)+d*exp(y)")
 
-
-def func(x,y,xExp,yExp):
-    xSymbol,ySymbol = sympy.symbols('x y')
+def func(x,y):
 
     xDif = xExp(x,y)
     yDif = yExp(x,y)
 
     return math.sqrt(1 + xDif**2 + yDif**2)
 
-xDif = sympy.diff(expression,xSymbol);
-yDif = sympy.diff(expression,ySymbol);
-xExp = sympy.lambdify([xSymbol,ySymbol],xDif,"numpy")
-yExp = sympy.lambdify([xSymbol,ySymbol],yDif,"numpy")
 
 def square():
-    return  scipy.integrate.dblquad(func,-10, 10, -20, 20,args=(xExp,yExp))    
+    return  scipy.integrate.dblquad(func,-10, 10, -20, 20)  
 
+def xExp(x,y):
+    return 4 * x - 3 * math.exp(-x)
 
+def yExp(x,y):
+    return 4 * y + 3 * math.exp(y)
 
-make_surface(2, 2, 3, 4, -10, 10, -20, 20)
+make_surface(2, 2, 3, 3, -10, 10, -20, 20)
