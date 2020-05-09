@@ -3,8 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using CourseSurface.RightRectangleMethodLogic.Model;
 
@@ -15,18 +13,18 @@ namespace CourseSurface.RightRectangleMethodLogic
         public List<IntegrationResultInfo> CalculateSurface(Integral integrationInfo)
         {
             var results = new List<IntegrationResultInfo>();
-            int n = 1400;
+            const int n = 1400;
             var surface = new Surface();
 
             var stopwatch = new Stopwatch();
 
-            for (int i = 1; i < 10; i++)
+            for (var i = 1; i < 10; i++)
             {
                 stopwatch.Start();
                 var result = RightRectangle(surface.CalculateSurfaceFunction, integrationInfo, n, i);
                 stopwatch.Stop();
 
-                results.Add(new IntegrationResultInfo(){ Result = result,Time = stopwatch.Elapsed.TotalSeconds, NumberOfThreads = i});
+                results.Add(new IntegrationResultInfo() { Result = result, Time = stopwatch.Elapsed.TotalSeconds, NumberOfThreads = i });
 
                 stopwatch.Reset();
             }
@@ -37,15 +35,15 @@ namespace CourseSurface.RightRectangleMethodLogic
 
         public double RightRectangle(Func<double, double, double> f, Integral integrationInfo, int n, int threads)
         {
-            double stepX = GetStep(integrationInfo.XStart, integrationInfo.XEnd, n);
-            double stepY = GetStep(integrationInfo.YStart, integrationInfo.YEnd, n);
+            var stepX = GetStep(integrationInfo.XStart, integrationInfo.XEnd, n);
+            var stepY = GetStep(integrationInfo.YStart, integrationInfo.YEnd, n);
             var sum = new ConcurrentBag<double>();
 
-            ParallelOptions options = new ParallelOptions() { MaxDegreeOfParallelism = threads };
+            var options = new ParallelOptions() { MaxDegreeOfParallelism = threads };
 
             Parallel.For(0, n, options, i =>
                                            {
-                                               for (int j = 0; j < n; j++)
+                                               for (var j = 0; j < n; j++)
                                                {
                                                    sum.Add(f(GetByOffset(i + 1, integrationInfo.XStart, stepX),
                                                                  GetByOffset(j + 1, integrationInfo.YStart, stepY)));

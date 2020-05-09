@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using CourseSurface.RightRectangleMethodLogic;
 using CourseSurface.RightRectangleMethodLogic.Model;
 using MaterialSkin;
@@ -52,21 +45,27 @@ namespace CourseSurface
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void materialFlatButton1_Click(object sender, EventArgs e)
         {
-            RightRectangleMethod rectangleMethod = new RightRectangleMethod();
-            Integral integral = new Integral()
-                                {
-                                    XEnd = int.Parse(XEndTextBox.Text),
-                                    XStart = int.Parse(XStartTextBox.Text),
-                                    YEnd = int.Parse(YEndTextBox.Text),
-                                    YStart = int.Parse(YStartTextBox.Text)
-                                };
+            var python = new Process {StartInfo = {FileName = @"C:\Users\Beallador\Documents\Surface\PythonSurface\dist\PythonSurface.exe" } };
+            python.Start();
+        }
+
+        private void materialFlatButton2_Click(object sender, EventArgs e)
+        {
+            var rectangleMethod = new RightRectangleMethod();
+            var integral = new Integral()
+            {
+                XEnd = int.Parse(XEndTextBox.Text),
+                XStart = int.Parse(XStartTextBox.Text),
+                YEnd = int.Parse(YEndTextBox.Text),
+                YStart = int.Parse(YStartTextBox.Text)
+            };
             var result = rectangleMethod.CalculateSurface(integral);
 
             Result.Text = result.Last().Result.ToString(CultureInfo.InvariantCulture);
 
-            chartThreads.Series[0].Points.DataBind(result,"NumberOfThreads","Time","");
+            chartThreads.Series[0].Points.DataBind(result, "NumberOfThreads", "Time", "");
         }
     }
 }
