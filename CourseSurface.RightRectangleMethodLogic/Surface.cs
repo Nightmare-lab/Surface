@@ -13,6 +13,7 @@ namespace CourseSurface.RightRectangleMethodLogic
 
         public double CalculateInitialFunction(double x, double y)
         {
+            //return -2 * x * x + (-2 * y * y) + (-3 * Math.Sin(x) * Math.Cos(y));
             return 2 * x * x + 2 * y * y + 3 * Math.Exp(-x) + 3 * Math.Exp(y);
         }
 

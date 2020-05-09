@@ -2,7 +2,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CourseSurface.RightRectangleMethodLogic.Model;
 
@@ -18,7 +20,7 @@ namespace CourseSurface.RightRectangleMethodLogic
 
             var stopwatch = new Stopwatch();
 
-            for (var i = 1; i < 10; i++)
+            for (var i = 9; i < 10; i++)
             {
                 stopwatch.Start();
                 var result = RightRectangle(surface.CalculateSurfaceFunction, integrationInfo, n, i);
@@ -35,22 +37,34 @@ namespace CourseSurface.RightRectangleMethodLogic
 
         public double RightRectangle(Func<double, double, double> f, Integral integrationInfo, int n, int threads)
         {
+            var lockObject = new object();
             var stepX = GetStep(integrationInfo.XStart, integrationInfo.XEnd, n);
             var stepY = GetStep(integrationInfo.YStart, integrationInfo.YEnd, n);
             var sum = new ConcurrentBag<double>();
 
             var options = new ParallelOptions() { MaxDegreeOfParallelism = threads };
 
-            Parallel.For(0, n, options, i =>
-                                           {
-                                               for (var j = 0; j < n; j++)
-                                               {
-                                                   sum.Add(f(GetByOffset(i + 1, integrationInfo.XStart, stepX),
-                                                                 GetByOffset(j + 1, integrationInfo.YStart, stepY)));
-                                               }
-                                           }
-                                );
+            using (var writer = new StreamWriter( threads + ".txt"))
+            {
+                Parallel.For(1, n + 1, options, i =>
+                                                {
+                                                    var time = new Stopwatch();
 
+                                                    time.Start();
+
+                                                    for (var j = 1; j < n + 1; j++)
+                                                    {
+                                                        sum.Add(f(GetByOffset(i, integrationInfo.XStart, stepX), GetByOffset(j, integrationInfo.YStart, stepY)));
+                                                    }
+
+                                                    time.Stop();
+
+                                                    lock (lockObject)
+                                                    {
+                                                        writer.WriteLine(Thread.CurrentThread.ManagedThreadId + ":" + time.Elapsed.TotalSeconds + " : " + sum.Sum());
+                                                    }
+                                                });
+            }
 
             return stepX * stepY * sum.Sum();
         }
