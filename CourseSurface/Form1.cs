@@ -63,6 +63,10 @@ namespace CourseSurface
             };
             var result = rectangleMethod.CalculateSurface(integral);
 
+            var writer = new ExcelWriter();
+
+            writer.WriteThreadsDataToExcel(result);
+
             Result.Text = result.Last().Result.ToString(CultureInfo.InvariantCulture);
 
             chartThreads.Series[0].Points.DataBind(result, "NumberOfThreads", "Time", "");
