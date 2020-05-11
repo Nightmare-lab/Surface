@@ -15,18 +15,18 @@ namespace CourseSurface.RightRectangleMethodLogic
         public List<IntegrationResultInfo> CalculateSurface(Integral integrationInfo)
         {
             var results = new List<IntegrationResultInfo>();
-            const int n = 1400;
+            const int n = 2500;
             var surface = new Surface();
 
             var stopwatch = new Stopwatch();
 
-            for (var i = 9; i < 10; i++)
+            for (var i = 1; i < 10; i++)
             {
                 stopwatch.Start();
                 var result = RightRectangle(surface.CalculateSurfaceFunction, integrationInfo, n, i);
                 stopwatch.Stop();
 
-                results.Add(new IntegrationResultInfo() { Result = result, Time = stopwatch.Elapsed.TotalSeconds, NumberOfThreads = i });
+                results.Add(new IntegrationResultInfo {Result = result, Time = stopwatch.Elapsed.TotalSeconds, NumberOfThreads = i});
 
                 stopwatch.Reset();
             }
@@ -40,36 +40,42 @@ namespace CourseSurface.RightRectangleMethodLogic
             var lockObject = new object();
             var stepX = GetStep(integrationInfo.XStart, integrationInfo.XEnd, n);
             var stepY = GetStep(integrationInfo.YStart, integrationInfo.YEnd, n);
-            var sum = new ConcurrentBag<double>();
+            var totalSum = 0.0;
+            var time = new Stopwatch();
+            time.Start();
 
-            var options = new ParallelOptions() { MaxDegreeOfParallelism = threads };
+            var options = new ParallelOptions {MaxDegreeOfParallelism = threads};
 
-            using (var writer = new StreamWriter( threads + ".txt"))
+            using (var writer = new StreamWriter(threads + ".txt"))
             {
-                Parallel.For(1, n + 1, options, i =>
-                                                {
-                                                    var time = new Stopwatch();
+                Parallel.For<double>(1, (long)n + 1, options, () => 0, (i, state, subtotal) =>
+                                                         {
+                                                             for (var j = 1; j < n + 1; j++)
+                                                             {
+                                                                 subtotal += f(GetByOffset((int)i, integrationInfo.XStart, stepX),
+                                                                               GetByOffset(j, integrationInfo.YStart, stepY));
+                                                             }
 
-                                                    time.Start();
-
-                                                    for (var j = 1; j < n + 1; j++)
-                                                    {
-                                                        sum.Add(f(GetByOffset(i, integrationInfo.XStart, stepX), GetByOffset(j, integrationInfo.YStart, stepY)));
-                                                    }
-
-                                                    time.Stop();
-
-                                                    lock (lockObject)
-                                                    {
-                                                        writer.WriteLine(Thread.CurrentThread.ManagedThreadId + ":" + time.Elapsed.TotalSeconds + " : " + sum.Sum());
-                                                    }
-                                                });
+                                                             return subtotal;
+                                                         }, sum =>
+                                                            {
+                                                                lock (lockObject)
+                                                                {
+                                                                    time.Stop();
+                                                                    totalSum += sum;
+                                                                    writer.WriteLine(Thread.CurrentThread.ManagedThreadId + " : " + time.Elapsed.TotalSeconds + ":" + totalSum);
+                                                                    time.Start();
+                                                                }
+                                                            });
             }
 
-            return stepX * stepY * sum.Sum();
+            return stepX * stepY * totalSum;
         }
 
-        private double GetStep(double a, double b, int n) => ((b - a) / n);
+        private double GetStep(double a, double b, int n)
+        {
+            return (b - a) / n;
+        }
 
         private double GetByOffset(int offset, double start, double step)
         {
